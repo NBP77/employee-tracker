@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
 
   user: 'root',
 
-  password: 'Pendonevo13!',
+  password: '',
   database: 'ice_creamDB',
 });
 
