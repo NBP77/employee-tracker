@@ -8,8 +8,8 @@ const connection = mysql.createConnection({
 
   user: 'root',
 
-  password: '',
-  database: 'ice_creamDB',
+  password: 'Pendonevo13!',
+  database: 'employee_trackerDB',
 });
 
 const afterConnection = () => {
