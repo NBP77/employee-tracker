@@ -10,12 +10,14 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+
 connection.connect(function(err) {
     if (err) throw err
     console.log("Connected as Id" + connection.threadId)
     startPrompt();
 });
 
+// Starts prompt 
 function startPrompt() {
     inquirer.prompt([
     {
@@ -33,8 +35,8 @@ function startPrompt() {
             ]
     }
 
-])
-.then(function(answer) {
+    ])
+    .then(function(answer) {
         switch (answer.choice) {
             case "View All Employees?":
               viewAllEmployees();
@@ -47,7 +49,7 @@ function startPrompt() {
               viewAllDepartments();
             break;
           
-            case "Add Employee?":
+            case "Add Employees?":
                 addEmployee();
             break;
 
@@ -71,7 +73,7 @@ function startPrompt() {
     })
 }
 
-// View Functions 
+// View all employees
 function viewAllEmployees() {
     connection.query("SELECT * FROM employee;", 
     function(err, res) {
@@ -81,6 +83,7 @@ function viewAllEmployees() {
   })
 }
 
+// View all roles 
 function viewAllRoles() {
     connection.query("SELECT * FROM role;", 
     function(err, res) {
@@ -90,6 +93,7 @@ function viewAllRoles() {
     })
   }
 
+// View all departments function 
 function viewAllDepartments() {
     connection.query("SELECT * FROM department;", 
     function(err, res) {
@@ -99,6 +103,7 @@ function viewAllDepartments() {
     })
   } 
 
+// Creates the list of roles to select to add new employee  
   var roleArr = [];
   function selectRole() {
     connection.query("SELECT * FROM role", function(err, res) {
@@ -111,6 +116,7 @@ function viewAllDepartments() {
     return roleArr;
   } 
 
+// Add employee function 
   function addEmployee() { 
     inquirer.prompt([
         {
@@ -130,7 +136,7 @@ function viewAllDepartments() {
           choices: selectRole()
         },
     ])
-.then(function (answer) {
+    .then(function (answer) {
         var roleId = selectRole().indexOf(answer.role) + 1
         connection.query("INSERT INTO employee SET ?", 
         {
@@ -147,10 +153,65 @@ function viewAllDepartments() {
     })
 }
 
+// Function for update employee 
+function addRole() { 
+    connection.query("",   function(err, res) {
+      inquirer.prompt([
+          {
+            name: "Title",
+            type: "input",
+            message: "What is the role called?"
+          },
+          {
+            name: "Salary",
+            type: "input",
+            message: "What is the roles Salary?"
+  
+          } 
+      ])
+      .then(function(res) {
+            connection.query(
+              "INSERT INTO role SET ?",
+              {
+                title: res.Title,
+                salary: res.Salary,
+              },
+              function(err) {
+                  if (err) throw err
+                  console.table(res);
+                  startPrompt();
+              }
+          )
+      });
+    });
+    }
 
+// Add a department function 
+  function addDepartment() { 
+    inquirer.prompt([
+          {
+            name: "name",
+            type: "input",
+            message: "What is the new department?"
+          }
+      ])
+      .then(function(res) {
+            connection.query(
+              "INSERT INTO department SET ? ",
+              {
+                name: res.name
+              
+              },
+              function(err) {
+                  if (err) throw err
+                  console.table(res);
+                  startPrompt();
+              }
+          )
+      })
+    }
 
-
-// Exit
+// Exit function 
 function exit() {
   console.log("Goodbye");
   connection.end();
