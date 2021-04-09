@@ -51,7 +51,7 @@ function startPrompt() {
                 addEmployee();
             break;
 
-            case "Update Employee":
+            case "Update Employee?":
                 updateEmployee();
             break;
       
@@ -130,7 +130,24 @@ function viewAllDepartments() {
           choices: selectRole()
         },
     ])
+.then(function (answer) {
+        var roleId = selectRole().indexOf(answer.role) + 1
+        connection.query("INSERT INTO employee SET ?", 
+        {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: roleId
+            
+        }, function(err){
+            if (err) throw err
+            console.table(answer)
+            startPrompt()
+        })
+  
+    })
 }
+
+
 
 
 // Exit
@@ -140,16 +157,3 @@ function exit() {
 }
 
 
-
-
-
-
-
-
-// const afterConnection = () => {
-//   connection.query('SELECT * FROM employee', (err, res) => {
-//     if (err) throw err;
-//     console.table(res);
-//     connection.end();
-//   });
-// };
