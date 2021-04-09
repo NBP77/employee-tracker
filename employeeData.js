@@ -10,92 +10,68 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-
-// Function for prompts 
-const begin = () => {
-    inquirer.prompt(prompts.startPrompts)
-     .then((answers) => {
-        switch(answers.task) {
-            case "Add departments, roles, and/or employees":
-                addSelector();
-                break;
-            case "View departments, roles, employees":
-                viewSelector();
-                break;
-            case "Update employee roles":
-                updateSelector();
-                break;
-            case "Exit":
-                exit();
-                break
-        }
-    });
-}
-
-// Functions for options 
-
-// Add departments, roles, and/or employees
-function addOption() {
-  inquirer.prompt(prompts.addPrompts)
-  .then((answers) => {
-    switch(answers.task) {
-        case "Departments":
-            addDepartment();
-            break;
-        case "Employees":
-            addEmployee();
-            break;
-        case "Roles":
-            addRole();
-            break;
-        case "Go Back":
-            start();
-            break
-    }
+connection.connect(function(err) {
+    if (err) throw err
+    console.log("Connected as Id" + connection.threadId)
+    startPrompt();
 });
+
+function startPrompt() {
+    inquirer.prompt([
+    {
+    type: "list",
+    message: "Please select an option",
+    name: "choice",
+    choices: [
+              "Add Department?",
+              "Add Role?",
+              "Add Employee",
+              "View Department?",
+              "View Role?",
+              "View Employee?",
+              "Update Employee role?"
+            ]
+    }
+
+])
+.then(function(answer) {
+        switch (answer.choice) {
+            case "View All Employees?":
+              viewAllEmployees();
+            break;
+    
+            case "View All Employee's By Roles?":
+              viewAllRoles();
+            break;
+            case "View all Employee's By Departments":
+              viewAllDepartments();
+            break;
+          
+            case "Add Employee?":
+                addEmployee();
+            break;
+
+            case "Update Employee":
+                updateEmployee();
+            break;
+      
+            case "Add Role?":
+                addRole();
+            break;
+      
+            case "Add Department?":
+                addDepartment();
+            break;
+
+            case "Exit?":
+                exit();
+            break;
+    
+            }
+    })
 }
 
-// View departments, roles, employees
-function viewOption() {
-  inquirer.prompt(prompts.addPrompts)
-      .then((answers) => {
-          switch (answers.task) {
-              case "Departments":
-                  viewDepartment();
-                  break;
-              case "Employees":
-                  viewEmployee();
-                  break;
-              case "Roles":
-                  viewRole();
-                  break;
-              case "Go Back":
-                  start();
-                  break
-          }
-      });
-}
-
-// Update employee roles
-function updateOption() {
-  inquirer.prompt(prompts.addPrompts)
-      .then((answers) => {
-          switch (answers.task) {
-              case "Departments":
-                  updateDepartment();
-                  break;
-              case "Employees":
-                  updateEmployee();
-                  break;
-              case "Roles":
-                  updateRole();
-                  break;
-              case "Go Back":
-                  start();
-                  break
-          }
-      });
-}
+// Creating new function for each prompt above
 
 // Exit
 function exit() {
@@ -104,20 +80,7 @@ function exit() {
 }
 
 
-// Option Prompts
-const startPrompts = [
-    {
-        type: 'list',
-        name: 'options',
-        message: 'Please select an option below',
-        choices: [
-            "Add departments, roles, and/or employees",
-            "View departments, roles, employees",
-            "Update employee roles",
-            "Exit"
-        ]
-    }
-]
+
 
 
 connection.connect((err) => {
