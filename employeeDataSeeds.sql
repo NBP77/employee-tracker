@@ -9,7 +9,6 @@ id INT NOT NULL AUTO_INCREMENT,
 first_name VARCHAR(30),
 last_name VARCHAR(30),
 role_id INT,
-manager_id INT,
 PRIMARY KEY (id)
 );
 
@@ -27,5 +26,11 @@ CREATE TABLE department (
   PRIMARY KEY (id)
 );
 
-INSERT INTO employee (first_name, last_name)
-VALUES ("Nick", "Pendergast");
+INSERT INTO department (dep_name)
+VALUES ("HR"), ("Development"), ("Sales");
+
+INSERT INTO employee (first_name, last_name, role_id)
+VALUES ("Monkey", "D.Luffy", 1), ("Marshall", "D.Teach", 6);
+
+INSERT INTO role (title, salary, id)
+VALUES ("Developer", 100000, 1), ("PM", 80000, 2);

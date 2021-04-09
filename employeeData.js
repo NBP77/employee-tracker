@@ -28,7 +28,7 @@ function startPrompt() {
               "Add Employee",
               "View Department?",
               "View Role?",
-              "View Employee?",
+              "View All Employee?",
               "Update Employee role?"
             ]
     }
@@ -71,7 +71,67 @@ function startPrompt() {
     })
 }
 
-// Creating new function for each prompt above
+// View Functions 
+function viewAllEmployees() {
+    connection.query("SELECT * FROM employee;", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      startPrompt()
+  })
+}
+
+function viewAllRoles() {
+    connection.query("SELECT * FROM role;", 
+    function(err, res) {
+    if (err) throw err
+    console.table(res)
+    startPrompt()
+    })
+  }
+
+function viewAllDepartments() {
+    connection.query("SELECT * FROM department;", 
+    function(err, res) {
+      if (err) throw err
+      console.table(res)
+      startPrompt()
+    })
+  } 
+
+  var roleArr = [];
+  function selectRole() {
+    connection.query("SELECT * FROM role", function(err, res) {
+      if (err) throw err
+      for (var i = 0; i < res.length; i++) {
+        roleArr.push(res[i].title);
+      }
+  
+    })
+    return roleArr;
+  } 
+
+  function addEmployee() { 
+    inquirer.prompt([
+        {
+          name: "firstname",
+          type: "input",
+          message: "Enter their first name "
+        },
+        {
+          name: "lastname",
+          type: "input",
+          message: "Enter their last name "
+        },
+        {
+          name: "role",
+          type: "list",
+          message: "What is their role? ",
+          choices: selectRole()
+        },
+    ])
+}
+
 
 // Exit
 function exit() {
@@ -83,11 +143,6 @@ function exit() {
 
 
 
-connection.connect((err) => {
-  if (err) throw err;
-  console.log(`connected as id ${connection.threadId}`);
-  begin();
-});
 
 
 
