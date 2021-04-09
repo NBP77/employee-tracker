@@ -35,7 +35,6 @@ VALUES ("Monkey", "D.Luffy", 1), ("Marshall", "D.Teach", 6);
 INSERT INTO role (title, salary, id)
 VALUES ("Developer", 100000, 1), ("PM", 80000, 2);
 
-
 SELECT * FROM employee;
 SELECT * FROM role;
 SELECT * FROM department;

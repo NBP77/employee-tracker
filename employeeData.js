@@ -27,21 +27,22 @@ function startPrompt() {
     choices: [
               "Add Department?",
               "Add Role?",
-              "Add Employee",
+              "Add Employees?",
               "View Department?",
               "View Role?",
-              "View All Employee?",
-              "Update Employee role?"
+              "View All Employees?",
+              "Update Employee role?",
+              "Exit",
             ]
     }
 
     ])
     .then(function(answer) {
+      console.log(answer);
         switch (answer.choice) {
             case "View All Employees?":
               viewAllEmployees();
             break;
-    
             case "View All Employee's By Roles?":
               viewAllRoles();
             break;
@@ -53,7 +54,7 @@ function startPrompt() {
                 addEmployee();
             break;
 
-            case "Update Employee?":
+            case "Update Employee role?":
                 updateEmployee();
             break;
       
@@ -68,6 +69,9 @@ function startPrompt() {
             case "Exit?":
                 exit();
             break;
+
+            default:
+              console.log("Hello world");
     
             }
     })
