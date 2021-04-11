@@ -28,7 +28,7 @@ function startPrompt() {
               "Add Department?",
               "Add Role?",
               "Add Employees?",
-              "View Department?",
+              "View all Employee's By Departments?",
               "View All Employee's By Roles?",
               "View All Employees?",
               "Update Employee role?",
@@ -46,7 +46,7 @@ function startPrompt() {
             case "View All Employee's By Roles?":
               viewAllRoles();
             break;
-            case "View all Employee's By Departments":
+            case "View all Employee's By Departments?":
               viewAllDepartments();
             break;
           
@@ -99,7 +99,7 @@ function viewAllRoles() {
 
 // View all departments function 
 function viewAllDepartments() {
-    connection.query("SELECT * FROM department;", 
+    connection.query("SELECT employee.first_name, employee.last_name, department.name AS Department FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id;", 
     function(err, res) {
       if (err) throw err
       console.table(res)
@@ -159,7 +159,7 @@ function viewAllDepartments() {
 
 // Function for update employee 
 function addRole() { 
-    connection.query("",   function(err, res) {
+    connection.query("SELECT role.title AS Title, role.salary AS Salary FROM role",   function(err, res) {
       inquirer.prompt([
           {
             name: "Title",

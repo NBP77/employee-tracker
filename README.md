@@ -20,11 +20,11 @@ To check the project, I worked on click on these links:
 
 GitHub: https://github.com/NBP77/employee-tracker
 
-Vid: 
+Vid: https://drive.google.com/file/d/1RSPJqdDlWc10nH3cqt-JO6GdXrwr_-7v/view  
 
 ## Technologies used 
 
--mySQL
+-mySQL 
 -.env
 -node
 
