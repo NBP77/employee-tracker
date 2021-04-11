@@ -29,7 +29,7 @@ function startPrompt() {
               "Add Role?",
               "Add Employees?",
               "View Department?",
-              "View Role?",
+              "View All Employee's By Roles?",
               "View All Employees?",
               "Update Employee role?",
               "Exit",
@@ -79,7 +79,7 @@ function startPrompt() {
 
 // View all employees
 function viewAllEmployees() {
-    connection.query("SELECT * FROM employee;", 
+    connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;", 
     function(err, res) {
       if (err) throw err
       console.table(res)
@@ -89,7 +89,7 @@ function viewAllEmployees() {
 
 // View all roles 
 function viewAllRoles() {
-    connection.query("SELECT * FROM role;", 
+    connection.query("SELECT employee.first_name, employee.last_name, role.title AS Title FROM employee JOIN role ON employee.role_id = role.id;",  
     function(err, res) {
     if (err) throw err
     console.table(res)
